@@ -34,13 +34,13 @@
 
     /* Animation Styles */
     :root {
-      --animation-speed-base: 0.7s;
-      --animaton-speed-sky: calc(var(--animation-speed-base) * 10);
-      --animaton-speed-building: calc(var(--animation-speed-base) * 8);
+      --animation-speed-base: 1s;
+      --animaton-speed-sky: calc(var(--animation-speed-base) * 50);
+      --animaton-speed-building: calc(var(--animation-speed-base) * 14);
       --animaton-speed-road: calc(var(--animation-speed-base) * 3);
-      --animaton-speed-trees: calc(var(--animation-speed-base) * 1.9);
+      --animaton-speed-trees: calc(var(--animation-speed-base) * 4);
       --animaton-speed-car: calc(var(--animation-speed-base) * 1);
-      --animaton-speed-wheel: calc(var(--animation-speed-base) * 0.8);
+      --animaton-speed-wheel: calc(var(--animation-speed-base) * 0.6);
       --animaton-speed-title: calc(var(--animation-speed-base) * 3);
     }
 
@@ -157,6 +157,37 @@
       animation-duration: var(--animaton-speed-title);
     }
 
+    .dim {
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-color: rgba(255, 255, 255, 0.6);
+      background-color: rgba(50, 50, 50, 0.6);
+      z-index: 100;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%, -50%);
+      font-family: Verdana, sans-serif;
+      color: white;
+    }
+
+    .hideSpin {
+      animation: hideSpin 0.4s linear 1 forwards;
+    }
+
+    @keyframes hideSpin {
+      to {
+        transform: scale(0);
+        display: none;
+      }
+    }
+
     @keyframes anim-road {
       from {
         background-position-x: 0;
@@ -199,7 +230,7 @@
 
     @keyframes anim-wheel {
       from {
-        transform: rotate(1deg);
+        transform: rotate(0deg);
       }
 
       to {
@@ -209,27 +240,15 @@
 
     @keyframes anim-car {
       from {
-        transform: rotate(0deg) translateX(-50%);
+        transform: translate(-50%, -1px);
       }
 
-      10% {
-        transform: rotate(0deg) translateX(-50%);
-      }
-
-      25% {
-        transform: rotate(-0.3deg) translateX(-50%);
-      }
-
-      30% {
-        transform: rotate(0deg) translateX(-50%);
-      }
-
-      40% {
-        transform: rotate(0.3deg) translateX(-50%);
+      50% {
+        transform: translate(-50%, 1px);
       }
 
       to {
-        transform: rotate(0deg) translateX(-50%);
+        transform: translate(-50%, -1px);
       }
     }
 
@@ -267,7 +286,58 @@
     </div>
   </main>
   <footer><small>&copy; Copy right protected</small></footer>
-  <script></script>
+  <div class="dim">
+    <span class="loader">Loading.....</span>
+  </div>
+  <script>
+    // Below code only to check loading status of images
+    let images = [
+      "images/anim/sky.jpg",
+      "images/anim/building.png",
+      "images/anim/road.jpg",
+      "images/anim/car.png",
+      "images/anim/trees1.png",
+      "images/anim/wheel.png",
+    ];
+
+    let stTime = 0;
+    let endTime = 0;
+    let diff = 0;
+
+    let total = images.length;
+    let loadedCount = 0;
+
+    const animPlane = document.querySelector(".animPlane");
+    const loadSpin = document.querySelector(".dim");
+    animPlane.style = "visibility: hidden";
+
+
+    const showAnimation = () => {
+      endTime = Date.now();
+      diff = endTime - stTime;
+      animPlane.style = "visibility: visible";
+      loadSpin.classList.add("hideSpin");
+      console.log(diff);
+    }
+
+    const loadChecker = (item) => {
+      let img = document.createElement('img');
+      img.src = item;
+      img.addEventListener('load', () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          showAnimation();
+        }
+      })
+    }
+
+    const loader = () => {
+      stTime = Date.now();
+      images.map(loadChecker)
+    }
+
+    loader();
+  </script>
 </body>
 
 </html>
