@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> CSS Animation </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Common Styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    *::before,
+    *::after {
+      content: "";
+      clear: both;
+      display: block;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    header,
+    footer {
+      padding: 10px 20px;
+      background-color: #dbdbdb;
+    }
+
+    main {
+      padding: 10px 20px;
+    }
+
+    /* Animation Styles */
+    :root {
+      --animation-speed-base: 0.7s;
+      --animaton-speed-sky: calc(var(--animation-speed-base) * 10);
+      --animaton-speed-building: calc(var(--animation-speed-base) * 8);
+      --animaton-speed-road: calc(var(--animation-speed-base) * 3);
+      --animaton-speed-trees: calc(var(--animation-speed-base) * 1.9);
+      --animaton-speed-car: calc(var(--animation-speed-base) * 1);
+      --animaton-speed-wheel: calc(var(--animation-speed-base) * 0.8);
+      --animaton-speed-title: calc(var(--animation-speed-base) * 3);
+    }
+
+    .animCanvas {
+      padding: 20px;
+    }
+
+    .animPlane {
+      position: relative;
+      height: calc(100vh - 200px);
+      overflow: hidden;
+      min-height: 490px;
+      max-height: 490px;
+      max-width: 1880px;
+      margin: 0 auto;
+    }
+
+    .sky,
+    .buildings,
+    .road,
+    .trees,
+    .car,
+    .wheel,
+    .title {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-size: auto;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: linear;
+    }
+
+    .sky {
+      background: url("images/anim/sky.jpg") repeat-x 0 -90px;
+      z-index: 0;
+      animation-name: anim-sky;
+      animation-duration: var(--animaton-speed-sky);
+    }
+
+    .buildings {
+      background: url("images/anim/building.png") repeat-x 0 0;
+      background-position: bottom;
+      z-index: 1;
+      bottom: 125px;
+      animation-name: anim-build;
+      animation-duration: var(--animaton-speed-building);
+    }
+
+    .road {
+      background: url("images/anim/road.jpg") repeat-x 0 bottom;
+      background-size: contain;
+      height: 165px;
+      z-index: 2;
+      bottom: -13px;
+      animation-name: anim-road;
+      animation-duration: var(--animaton-speed-road);
+    }
+
+    .car {
+      background: url("images/anim/car.png") no-repeat left bottom;
+      background-size: contain;
+      z-index: 3;
+      bottom: 105px;
+      left: 50%;
+      width: 225px;
+      transform: translateX(-50%);
+      animation-name: anim-car;
+      animation-duration: var(--animaton-speed-car);
+    }
+
+    .wheel {
+      background: url("images/anim/wheel.png") no-repeat 0 0;
+      background-size: contain;
+      left: 29px;
+      bottom: 4px;
+      width: 30px;
+      height: 30px;
+      animation-name: anim-wheel;
+      animation-iteration-count: infinite;
+      animation-duration: var(--animaton-speed-wheel);
+    }
+
+    .wheel.front {
+      left: 167px;
+    }
+
+    .trees {
+      background: url("images/anim/trees1.png") no-repeat 100px -50px;
+      z-index: 4;
+      bottom: 0;
+      width: 100%;
+      height: 500px;
+      left: 0;
+      opacity: 0.5;
+      animation-name: anim-trees;
+      animation-fill-mode: forwards;
+      animation-duration: var(--animaton-speed-trees);
+      animation-timing-function: linear;
+    }
+
+    .title {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 2em;
+      color: white;
+      text-shadow: 2px 2px 5px #000000, 2px 2px 20px magenta;
+      display: inline-block;
+      width: auto;
+      height: auto;
+      top: 20px;
+      left: 40px;
+      z-index: 5;
+      animation-name: anim-title;
+      animation-duration: var(--animaton-speed-title);
+    }
+
+    @keyframes anim-road {
+      from {
+        background-position-x: 0;
+      }
+
+      to {
+        background-position-x: calc((-935px) * 2);
+      }
+    }
+
+    @keyframes anim-build {
+      from {
+        background-position-x: 0;
+      }
+
+      to {
+        background-position-x: -1880px;
+      }
+    }
+
+    @keyframes anim-sky {
+      from {
+        background-position-x: 0;
+      }
+
+      to {
+        background-position-x: -1880px;
+      }
+    }
+
+    @keyframes anim-trees {
+      from {
+        background-position-x: 100px;
+      }
+
+      to {
+        background-position-x: 2400%;
+      }
+    }
+
+    @keyframes anim-wheel {
+      from {
+        transform: rotate(1deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes anim-car {
+      from {
+        transform: rotate(0deg) translateX(-50%);
+      }
+
+      10% {
+        transform: rotate(0deg) translateX(-50%);
+      }
+
+      25% {
+        transform: rotate(-0.3deg) translateX(-50%);
+      }
+
+      30% {
+        transform: rotate(0deg) translateX(-50%);
+      }
+
+      40% {
+        transform: rotate(0.3deg) translateX(-50%);
+      }
+
+      to {
+        transform: rotate(0deg) translateX(-50%);
+      }
+    }
+
+    @keyframes anim-title {
+      from {
+        transform: scaleX(1.2);
+      }
+
+      50% {
+        transform: scaleX(1);
+      }
+
+      to {
+        transform: scaleX(1.2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>Animation</header>
+  <main>
+    <div class="animCanvas" title="No JavaScript, only CSS">
+      <div class="animPlane">
+        <div class="title"> CSS Animation </div>
+        <div class="sky"></div>
+        <div class="buildings"></div>
+        <div class="road"></div>
+        <div class="car">
+          <div class="wheel front"></div>
+          <div class="wheel back"></div>
+        </div>
+        <div class="trees"></div>
+      </div>
+    </div>
+  </main>
+  <footer><small>&copy; Copy right protected</small></footer>
+  <script></script>
+</body>
+
+</html>
